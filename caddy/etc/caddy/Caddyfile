@@ -1,0 +1,24 @@
+{
+        order coraza_waf first
+}
+
+localhost {
+        coraza_waf {
+                load_owasp_crs
+                directives `
+                Include /etc/caddy/coraza.conf
+                Include /etc/caddy/crs-setup-nextjs.conf
+                Include /etc/caddy/rules/*.conf
+                SecRuleEngine On
+                `
+        }
+
+        tls internal
+        encode zstd gzip
+
+        handle * {
+                reverse_proxy http://nextjs:3000
+        }
+
+        log
+}

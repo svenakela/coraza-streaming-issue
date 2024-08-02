@@ -1,0 +1,20 @@
+version: "3.0"
+services:
+  nextjs:
+    image: youssefkababe/nextjs-spinner
+    ports: 
+      - 3000:3000
+
+  caddy:
+    build:
+      context: ./caddy
+      dockerfile: Dockerfile
+    volumes:
+      - ./caddy/etc/caddy:/etc/caddy
+    ports:
+      - 443:443
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "1M"
+        max-file: "10"
